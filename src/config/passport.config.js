@@ -32,12 +32,17 @@ const initializePassport = () => {
 const cookieExtractor = req => {
     let token = null;
     if(req && req.cookies) {
-        token = req.cookies['coderCookieToken'];
+        token = req.cookies[PRIVATE_KEY_JWT];
     }
     return token;
 }
 
 export default initializePassport;
+
+
+
+
+
 
 
 
@@ -139,10 +144,4 @@ export default initializePassport;
 //         done(null, user);
 //     })
 // }
-
-export  {
-    initializePassport
-}
-
-
 
