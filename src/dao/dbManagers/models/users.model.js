@@ -8,9 +8,21 @@ const usersSchema = new mongoose.Schema({
     email: String,
     age: Number,
     password: String,
+    cart:{
+        //se define la referencia a la colección de carts
+        type:[
+            {
+                cart : {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'carts'
+                }
+            }
+        ],
+        default:[]
+    },
     role : {
         type: String,
-        default: 'usuario' //para todos los usuarios normales excepto el admin
+        default: 'USER' //para todos los usuarios normales excepto el admin
     }
 });
 

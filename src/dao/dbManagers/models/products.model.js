@@ -39,18 +39,6 @@ const productsSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-    // carts:{
-    //     //se define la referencia a la colección de carts
-    //     type:[
-    //         {
-    //             carts : {
-    //                 type: mongoose.Schema.Types.ObjectId,
-    //                 ref: 'carts'
-    //             }
-    //         }
-    //     ],
-    //     default:[]
-    // }
 
 });
 

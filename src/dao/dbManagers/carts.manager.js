@@ -1,4 +1,4 @@
-import {cartsModel} from '../dbManagers/models/carts.model.js';
+import {cartsModel} from './models/carts.model.js';
 import Products from './products.manager.js';
 
 const allProducts = new Products();
@@ -141,37 +141,6 @@ export default class Carts {
  
     }
 
-    // addProductInCart = async (cartId, productId) =>{
-
-    //         let carts = await this.readCarts();
-    //         let cartsById = carts.find(cart => cart._id.toString() === cartId)
-
-    //         if(!cartsById) return "Carrito No encontrado"
-    //         let productsManag = await allProducts.readProducts();
-    //         let productsById = productsManag.find(prod => prod._id.toString() === productId)
-    //         if(!productsById) return "Producto No encontrado" 
-    
-    //         //Ya existe ? , le sumo uno a la cantidad.
-    //         let cartFilter = carts.filter(cart=> cart._id.toString() != cartId) 
-    
-    //         if(cartsById.products.some(prod => prod._id.toString() ===productId)){
-    //             console.log("entro aqui")
-    //             let productCart = cartsById.products.find(prod => prod._id.toString() ===productId)
-    //             productCart.quantity++
-    //             let cart = [cartsById, ...cartFilter] //
-    //             await cartsModel.updateOne({product: cartId}, cartsById) //_id
-    //             //await cartsModel.create(concatCart);
-    //             return "Cantidad del producto existente actualizado"
-    //         }
-    
-    //         cartsById.products.push({product:productsById.product, quantity:1})  //_id
-            
-    //         let cart = [ cartsById, ...cartFilter]
-    //         await cartsModel.updateOne({product: cartId}, cartsById) //_id
-    //         //await cartsModel.create(concatCart);
-    //         return "Producto agregado al carrito"
-
-    // }
 
     addProductInCart = async (cartId, productId) =>{
 
