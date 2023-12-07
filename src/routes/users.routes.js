@@ -43,6 +43,7 @@ export default class UsersRouter extends Router {
           const result = await this.usersManager.save(newUser);
   
           const accessToken = generateToken(result);
+          console.log("Token login", accessToken)
           res.status(201).json({ status: 'success', access_token: accessToken });
       } catch (error) {
           console.error('Error en el registro:', error);
@@ -69,8 +70,11 @@ export default class UsersRouter extends Router {
         return res.sendClientError('incorrect credential')
       }
 
-      const accessToken = generateToken(user);
-      res.cookie(PRIVATE_KEY_JWT, accessToken, {maxAge: 60 * 60 * 1000}).send({status:'success', message:'login success'})
+      const{password:_, ...userResult} = user
+
+      const accessToken = generateToken(userResult);
+      console.log("Token login", accessToken)
+      res.cookie('coderCookieToken', accessToken, {maxAge: 60 * 60 * 1000, httpOnly: true}).send({status:'success', message:'login success'})
       //res.sendSuccess(accessToken);       
      
     } catch (error) {
@@ -79,3 +83,23 @@ export default class UsersRouter extends Router {
  }
 
 }
+
+
+// router.post('/login', async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+//         console.log(users);
+//         console.log(email, password);
+
+//         const user = users.find(user => user.email === email && user.password === password);
+
+//         if (!user) return res.status(401).send({ status: 'error', message: 'invalid credentials' });
+
+//         //generar el jwt
+//         const { password: _, ...userResult } = user;
+//         const accessToken = generateToken(userResult);
+//         res.cookie('coderCookieToken', accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true }).send({ status: 'success', message: 'login success' })
+//     } catch (error) {
+//         res.status(500).send({ status: 'error', message: error.message });
+//     }
+// });

@@ -18,19 +18,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
             });
 
-            if (response.ok) {
-                // Inicio de sesión exitoso, obtener el token del cuerpo de la respuesta
-                const { token } = await response.json();
+            if (response.status === 200) {
+               window.location.replace('/products')
+              } else {
+                location.href = '/login'
+              }
 
-                // Almacenar el token en una cookie
-                document.cookie = `coderSergioJHeaders=${token}; path=/`;
+            // if (response.ok) {
+            //     // Inicio de sesión exitoso, obtener el token del cuerpo de la respuesta
+            //     const { token } = await response.json();
 
-                // Redirige a la página de productos
-                window.location.replace('/products');
-            } else {
-                const error = await response.json();
-                alert(error.error);
-            }
+            //     // Almacenar el token en una cookie
+            //     document.cookie = `coderCookieToken=${token}; path=/`;
+
+            //     // Redirige a la página de productos
+            //     window.location.replace('/products');
+            // } else {
+            //     const error = await response.json();
+            //     alert(error.error);
+            // }
         } catch (error) {
             console.error('Error during login:', error);
         }

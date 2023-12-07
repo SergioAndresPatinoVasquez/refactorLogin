@@ -4,6 +4,7 @@ import initializePassport from './config/passport.config.js';
 import mongoose from 'mongoose';
 import { __dirname } from './utils.js';
 import passport from 'passport';
+import cookieParser from 'cookie-parser';
 import ViewsRouter from './routes/views.routes.js'
 import UsersRouter from './routes/users.routes.js'
 import CartsRouter from './routes/carts.routes.js'
@@ -29,11 +30,13 @@ app.use(express.static(`${__dirname}/public`));
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
+app.use(cookieParser());
 
 app.use("/", viewsRouter.getRouter());
 app.use("/api/products", productsRouter.getRouter());
 app.use("/api/carts", cartsRouter.getRouter());
 app.use("/api/users", usersRouter.getRouter());
+app.use("/api/sessions", usersRouter.getRouter());
 
 try {
     await mongoose.connect('mongodb+srv://sergioandres98:seryus1984@mongodb101.2xndcrf.mongodb.net/segundaPractica?retryWrites=true&w=majority')

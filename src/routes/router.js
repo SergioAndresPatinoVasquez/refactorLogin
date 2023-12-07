@@ -96,11 +96,15 @@ export default class Router {
 
     handlePolicies = (policies) => (req, res, next) => {
         if (policies[0] === accessRolesEnum.PUBLIC) return next();
-    
+        console.log("policies", policies);
+        console.log("policies", policies[0]);
         const user = req.user;
+        console.log("user", user)
+        console.log("user role", user.role)
+        console.log("policies . incluede user role uppercas", policies.includes(user.role.toUpperCase()))
     
         if (!user || !user.role || !policies.includes(user.role.toUpperCase())) {
-            return res.status(403).json({ error: 'not permissions' });
+            return res.status(403).json({ error: 'not permissions compa' });
         }
     
         next();
