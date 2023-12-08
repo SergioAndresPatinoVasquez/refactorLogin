@@ -2,7 +2,9 @@ import Router from './router.js';
 import Users from '../dao/dbManagers/users.manager.js'
 import { accessRolesEnum, passportStrategiesEnum } from "../config/enums.config.js";
 import { createHash, generateToken, isValidPassword } from "../utils.js";
-import { PRIVATE_KEY_JWT } from '../config/constants.config.js';
+
+
+
 
 export default class UsersRouter extends Router {
    constructor(){
@@ -13,7 +15,8 @@ export default class UsersRouter extends Router {
    init () {
       this.post('/login', [accessRolesEnum.PUBLIC], passportStrategiesEnum.NOTHING, this.login);
       this.post('/register', [accessRolesEnum.PUBLIC], passportStrategiesEnum.NOTHING, this.register);
-   }
+
+    }
 
    async register (req, res){
       try {
@@ -81,6 +84,33 @@ export default class UsersRouter extends Router {
        res.sendServerError(error.message);
     } 
  }
+
+    // Manejador para la autenticación con GitHub
+        async githubLogin(req, res) {
+            try {
+                // Este controlador se ejecutará después de la autenticación exitosa con GitHub.
+                // Puedes personalizar este bloque según tus necesidades.
+                res.sendSuccess({ message: 'Autenticación exitosa con GitHub', user: req.user });
+            } catch (error) {
+                res.sendServerError(error.message);
+            }
+        }
+
+            // Manejador para la autenticación con GitHub (callback)
+        async githubLoginCallback(req, res) {
+            const email = req.user.email || (req.user._json && req.user._json.email) || '';
+            const name = (req.user._json && req.user._json.name) || (req.user.displayName || req.user.username) || req.user.first_name || '';
+            
+            const userObject = {
+                name,
+                email,
+                age: 18,
+                role: 'usuario'
+            };
+        
+            req.session.user = userObject;
+            res.redirect('/products');
+        }
 
 }
 

@@ -1,4 +1,5 @@
 import Router from './router.js';
+import passport from 'passport';
 import Products from '../dao/dbManagers/products.manager.js'
 import { accessRolesEnum, passportStrategiesEnum } from "../config/enums.config.js";
 
@@ -9,7 +10,7 @@ export default class ProductsRouter extends Router {
    }
 
    init () {
-      this.get('/', [accessRolesEnum.USER, accessRolesEnum.PUBLIC, accessRolesEnum.ADMIN], passportStrategiesEnum.JWT, this.getAll)
+      this.get('/', [accessRolesEnum.USER, accessRolesEnum.PUBLIC, accessRolesEnum.ADMIN], passport.authenticate(passportStrategiesEnum.JWT), this.getAll)
       this.post('/', [accessRolesEnum.USER, accessRolesEnum.PUBLIC, accessRolesEnum.ADMIN], passportStrategiesEnum.JWT, this.save)
       this.get('/:id', [accessRolesEnum.ADMIN, accessRolesEnum.USER], passportStrategiesEnum.JWT, this.getProductsById)
       this.delete('/:id', [accessRolesEnum.ADMIN], passportStrategiesEnum.JWT, this.deleteProduct)

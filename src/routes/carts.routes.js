@@ -12,14 +12,14 @@ export default class CartsRouter extends Router {
     }
 
     init () {
-        this.get('/', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC], passportStrategiesEnum.JWT, this.getAll)
-        this.post('/', [accessRolesEnum.ADMIN], passportStrategiesEnum.JWT, this.save)
-        this.put('/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.USER], passportStrategiesEnum.JWT, this.updateProductsInCart)
-        this.put('/:cid/products/:pid', [accessRolesEnum.ADMIN], passportStrategiesEnum.JWT, this.updateQuantityProductInCar)
-        this.post('/:cid/products/:pid', [accessRolesEnum.ADMIN], passportStrategiesEnum.JWT, this.addProductInCart)
-        this.delete('/:cid', [accessRolesEnum.ADMIN], passportStrategiesEnum.JWT, this.deleteProductInCart)
-        this.delete('/:cid/products/:pid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC], passportStrategiesEnum.JWT, this.deleteProduct)
-        this.get('/:cid', [accessRolesEnum.ADMIN], passportStrategiesEnum.JWT, this.getCartsById)
+        this.get('/', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.getAll)
+        this.post('/', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.save)
+        this.put('/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.updateProductsInCart)
+        this.put('/:cid/products/:pid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.updateQuantityProductInCar)
+        this.post('/:cid/products/:pid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.addProductInCart)
+        this.delete('/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.deleteProductInCart)
+        this.delete('/:cid/products/:pid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.deleteProduct)
+        this.get('/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.getCartsById)
 
     }
 
@@ -36,7 +36,7 @@ export default class CartsRouter extends Router {
     async save (req,res) {
         try {
             const result = await this.cartsManager.writeCarts();
-            res.sendSuccessNewResource(result);
+            res.sendSuccess({_id:result._id});
         } catch (error) {
             res.sendServerError(error.message);
         }    
@@ -75,7 +75,7 @@ export default class CartsRouter extends Router {
             let productId =req.params.pid
     
             const result = await this.cartsManager.addProductInCart(cartId, productId)
-            res.sendSuccessNewResource(result);
+            res.sendSuccess(result);
         } catch (error) {
             res.sendServerError(error.message);
     

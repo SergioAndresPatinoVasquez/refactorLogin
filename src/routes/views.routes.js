@@ -16,9 +16,9 @@ export default class ViewsRouter extends Router{
     }
 
     init () {
-      this.get('/products', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC, accessRolesEnum.USER], passportStrategiesEnum.NOTHING, this.productsView);
-      this.get('/carts', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC], passportStrategiesEnum.NOTHING, this.cartsView)
-       this.get('/cartsId-view/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC], passportStrategiesEnum.NOTHING, this.cartsIdView)
+      this.get('/products', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC, accessRolesEnum.USER], passportStrategiesEnum.JWT, this.productsView);
+      this.get('/carts', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC, accessRolesEnum.USER], passportStrategiesEnum.JWT, this.cartsView)
+       this.get('/cartsId-view/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC, accessRolesEnum.USER], passportStrategiesEnum.JWT, this.cartsIdView)
        this.get('/register', [accessRolesEnum.PUBLIC], passportStrategiesEnum.NOTHING, this.registerView);
        this.get('/login', [accessRolesEnum.PUBLIC], passportStrategiesEnum.NOTHING, this.loginView);
 
