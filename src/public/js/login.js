@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const data = new FormData(form);
         const obj = {};
-
+        console.log ("ingresa aquiiii")
         data.forEach((value, key) => (obj[key] = value));
 
         try {
@@ -24,6 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 location.href = '/login'
               }
 
+
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
+    });
+});
+
+
             // if (response.ok) {
             //     // Inicio de sesión exitoso, obtener el token del cuerpo de la respuesta
             //     const { token } = await response.json();
@@ -37,12 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
             //     const error = await response.json();
             //     alert(error.error);
             // }
-        } catch (error) {
-            console.error('Error during login:', error);
-        }
-    });
-});
-
 
 
 // const form = document.getElementById('loginForm');

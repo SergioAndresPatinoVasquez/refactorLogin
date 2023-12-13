@@ -8,6 +8,7 @@ import GitHubStrategy from 'passport-github2';
 
 
 
+
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
@@ -41,7 +42,7 @@ const initializePassport = () => {
         callbackURL: 'http://localhost:8080/api/sessions/github-callback',
         scope:['user:email']
 
-    }, async (accessToken, refreshToken, profile, done) =>{
+    }, async (accessToken, refreshToken, profile, done,) =>{
         try {
             console.log("profile",profile);
             const email =  profile.emails[0].value;
@@ -60,6 +61,13 @@ const initializePassport = () => {
                 }
                
                 const result = await usersModel.create(newUser);
+
+                // const accessToken = generateToken(result);
+                // console.log("Token login", accessToken)
+                // res.cookie('coderCookieToken', accessToken, {maxAge: 60 * 60 * 1000, httpOnly: true}).send({status:'success', message:'login success'})
+                // //res.sendSuccess(accessToken);     
+
+
                 return done(null, result); //req.user
             } else{
                 return done(null, user);

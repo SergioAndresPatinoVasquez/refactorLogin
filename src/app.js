@@ -1,7 +1,7 @@
+
 import express, { Router } from 'express';
 import handlebars from 'express-handlebars';
 import session from 'express-session';
-
 import initializePassport from './config/passport.config.js'; 
 import mongoose from 'mongoose';
 import { __dirname } from './utils.js';
@@ -10,10 +10,9 @@ import cookieParser from 'cookie-parser';
 import ViewsRouter from './routes/views.routes.js'
 import UsersRouter from './routes/users.routes.js'
 import CartsRouter from './routes/carts.routes.js'
-import ProductsRouter from './routes/product.routes.js';
+import ProductsRouter from './routes/products.routes.js';
 import githubRouter from './routes/sessions.routes.js';
-
-
+import configs from './config/config.js';
 
 
 const app = express();
@@ -42,8 +41,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}));
 
@@ -60,12 +57,17 @@ app.use("/api/carts", cartsRouter.getRouter());
 app.use("/api/users", usersRouter.getRouter());
 app.use("/api/sessions", githubRouter);
 
+console.log(configs)
 
 try {
-    await mongoose.connect('mongodb+srv://sergioandres98:seryus1984@mongodb101.2xndcrf.mongodb.net/segundaPractica?retryWrites=true&w=majority')
+    await mongoose.connect(configs.mongoUrl)
     console.log('DB connected')
+
 } catch (error) {
     console.log(error.message)
 }
 
-app.listen(8080, () => console.log('Server running'));
+app.listen(configs.port, () => console.log('Server running'));
+
+
+// await mongoose.connect('mongodb+srv://sergioandres98:seryus1984@mongodb101.2xndcrf.mongodb.net/segundaPractica?retryWrites=true&w=majority')

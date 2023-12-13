@@ -1,129 +1,127 @@
 import Router from './router.js'
-import Carts from '../dao/dbManagers/carts.manager.js';
-import { productsModel } from "../dao/dbManagers/models/products.model.js";
-import { cartsModel } from "../dao/dbManagers/models/carts.model.js";
 import { accessRolesEnum, passportStrategiesEnum } from '../config/enums.config.js';
-//import CartManager from "../managers/CartManager.js";
+import { getAllCarts, saveCart, updateProductsInCart, updateQuantityProductInCar, addProductInCart,
+         deleteProductInCart, deleteProduct, getCartsById} from '../controllers/carts.controller.js';
 
 export default class CartsRouter extends Router {
     constructor(){
         super();
-        this.cartsManager = new Carts();
+        //this.cartsManager = new Carts();
     }
 
     init () {
-        this.get('/', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.getAll)
-        this.post('/', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.save)
-        this.put('/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.updateProductsInCart)
-        this.put('/:cid/products/:pid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.updateQuantityProductInCar)
-        this.post('/:cid/products/:pid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.addProductInCart)
-        this.delete('/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.deleteProductInCart)
-        this.delete('/:cid/products/:pid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.deleteProduct)
-        this.get('/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, this.getCartsById)
+        this.get('/', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, getAllCarts)
+        this.post('/', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, saveCart)
+        this.put('/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, updateProductsInCart)
+        this.put('/:cid/products/:pid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, updateQuantityProductInCar)
+        this.post('/:cid/products/:pid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, addProductInCart)
+        this.delete('/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, deleteProductInCart)
+        this.delete('/:cid/products/:pid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, deleteProduct)
+        this.get('/:cid', [accessRolesEnum.ADMIN, accessRolesEnum.PUBLIC,accessRolesEnum.USER], passportStrategiesEnum.JWT, getCartsById)
 
     }
 
-    async getAll (req, res) {
-        try {
-            const carts = await this.cartsManager.readCarts();
-            res.sendSuccess(carts);
-        } catch (error) {
-            res.sendServerError(error.message);
-        }
+    // async getAll (req, res) {
+    //     try {
+    //         const carts = await this.cartsManager.readCarts();
+    //         res.sendSuccess(carts);
+    //     } catch (error) {
+    //         res.sendServerError(error.message);
+    //     }
         
-    }
+    // }
 
-    async save (req,res) {
-        try {
-            const result = await this.cartsManager.writeCarts();
-            res.sendSuccess({_id:result._id});
-        } catch (error) {
-            res.sendServerError(error.message);
-        }    
-    }
+    // async save (req,res) {
+    //     try {
+    //         const result = await this.cartsManager.writeCarts();
+    //         res.sendSuccess({_id:result._id});
+    //     } catch (error) {
+    //         res.sendServerError(error.message);
+    //     }    
+    // }
 
-    async updateProductsInCart (req,res) {
-        try {
-            let carritoId= req.params.cid;
-            const products =req.body;      
+    // async updateProductsInCart (req,res) {
+    //     try {
+    //         let carritoId= req.params.cid;
+    //         const products =req.body;      
             
-            const result = await this.cartsManager.updateProductsInCart(carritoId, products);
+    //         const result = await this.cartsManager.updateProductsInCart(carritoId, products);
             
-            res.sendSuccess(result);
-        } catch (error) {
-            res.sendServerError(error.message);
-        }
-    }
+    //         res.sendSuccess(result);
+    //     } catch (error) {
+    //         res.sendServerError(error.message);
+    //     }
+    // }
 
-    async updateQuantityProductInCar (req,res) {
-        try {
-            const cartId= req.params.cid;
-            const productId= req.params.pid;
-            const newQuantity =req.body.quantity;       
+    // async updateQuantityProductInCar (req,res) {
+    //     try {
+    //         const cartId= req.params.cid;
+    //         const productId= req.params.pid;
+    //         const newQuantity =req.body.quantity;       
             
-            const result = await this.cartsManager.updateQuantityProductInCar(cartId, productId, newQuantity);
+    //         const result = await this.cartsManager.updateQuantityProductInCar(cartId, productId, newQuantity);
             
-            res.sendSuccess(result);
-        } catch (error) {
-            res.sendServerError(error.message);
-        }
-    }
+    //         res.sendSuccess(result);
+    //     } catch (error) {
+    //         res.sendServerError(error.message);
+    //     }
+    // }
 
-    async addProductInCart (req, res) {
-        try {
-            let cartId =req.params.cid
-            let productId =req.params.pid
+    // async addProductInCart (req, res) {
+    //     try {
+    //         let cartId =req.params.cid
+    //         let productId =req.params.pid
     
-            const result = await this.cartsManager.addProductInCart(cartId, productId)
-            res.sendSuccess(result);
-        } catch (error) {
-            res.sendServerError(error.message);
+    //         const result = await this.cartsManager.addProductInCart(cartId, productId)
+    //         res.sendSuccess(result);
+    //     } catch (error) {
+    //         res.sendServerError(error.message);
     
-        }
+    //     }
     
-    }
+    // }
 
-    async deleteProductInCart (req, res) {
-        try {
-            const cartId = req.params.cid;
+    // async deleteProductInCart (req, res) {
+    //     try {
+    //         const cartId = req.params.cid;
     
-            const result = await this.cartsManager.deleteProductInCart(cartId);
+    //         const result = await this.cartsManager.deleteProductInCart(cartId);
             
-            res.sendSuccess(result);
-        } catch (error) {
-            res.sendServerError(error.message);
+    //         res.sendSuccess(result);
+    //     } catch (error) {
+    //         res.sendServerError(error.message);
     
-        }
+    //     }
     
-    }
+    // }
 
-    async deleteProduct (req, res) {
-        try {
-            const { cid, pid} = req.params;
+    // async deleteProduct (req, res) {
+    //     try {
+    //         const { cid, pid} = req.params;
     
-            const result = await this.cartsManager.deleteProduct(cid, pid);
+    //         const result = await this.cartsManager.deleteProduct(cid, pid);
             
-            res.sendSuccess(result);
-        } catch (error) {
-            res.sendServerError(error.message);
+    //         res.sendSuccess(result);
+    //     } catch (error) {
+    //         res.sendServerError(error.message);
     
-        }
+    //     }
     
-    }
-    //populate
-    async getCartsById (req, res) {
-        try {
-            let Cartid = req.params.cid;    I
-            const cart = await this.cartsManager.getCartsById(Cartid);    
-            const result = await cartsModel.find(cart).populate('products.product');    
-            console.log("Populate", JSON.stringify(result));    
-            res.sendSuccess(result);
+    // }
+    // //populate
+    // async getCartsById (req, res) {
+    //     try {
+    //         let Cartid = req.params.cid;    I
+    //         const cart = await this.cartsManager.getCartsById(Cartid);    
+    //         const result = await cartsModel.find(cart).populate('products.product');    
+    //         console.log("Populate", JSON.stringify(result));    
+    //         res.sendSuccess(result);
     
-        } catch (error) {            
-            res.sendServerError(error.message);  
-        }    
+    //     } catch (error) {            
+    //         res.sendServerError(error.message);  
+    //     }    
 
-     }
+    //  }
 }
 
 
