@@ -26,20 +26,13 @@ githubRouter.get('/github-callback', passport.authenticate('github', {failureRed
     console.log("github1")
     req.session.user = userObject;
 
+    
+
     const accessToken = generateToken(userObject);
     console.log("Token login", accessToken)
-    res.cookie('coderCookieToken', accessToken, {maxAge: 60 * 60 * 1000, httpOnly: true}).send({status:'success', message:'login success'})
+    res.cookie('coderCookieToken', accessToken, {maxAge: 60 * 60 * 1000, httpOnly: true})
     
-    //res.redirect('/products');
-    //si descomento esta linea me aparece este error
-//     ErrorCaptureStackTrace(err);
-//     ^
-
-// Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
-//     at new NodeError (node:internal/errors:406:5)
-//     at ServerResponse.setHeader (node:_http_outgoing:652:11)
-//     at ServerResponse.header 
-
+    res.redirect('/products');
 
  } catch (error) {
     console.error('Error en /github-callback:', error);
